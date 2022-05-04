@@ -7,7 +7,7 @@ public class Cell {
 	private int position;
 	private Board board;
 	private Cell next,previous,portal = null;
-	
+	private char portalS;
 	
 	
 	public Cell(int position,Board board) {
@@ -93,14 +93,22 @@ public class Cell {
 		return out;
 	}
 	
-	public String portals(boolean change) {
-		String out="[";
-	
-		if(position%board.leght==0) {
-			change=change&&false;
-			out+="]\n";
+	public Cell getCellAtTheEnd() {
+		if(next!=board.getFirst()) {
+			if(next.position%board.widht==0) {
+				return next;
+			}
+			else {
+				return next.getCellAtTheEnd();
+			}
 		}
-		return out;
+		return null;
+	}
+	public String getPortalS() {
+		return "["+portalS+"]";
+	}
+	public void setPortalS(char portalS) {
+		this.portalS = portalS;
 	}
 	
 }
