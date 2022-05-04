@@ -28,6 +28,8 @@ public class Main {
 			}
 			game.verifyEndedGame();
 		}
+		
+		
 	}
 	
 	public static void movePlayer() {
