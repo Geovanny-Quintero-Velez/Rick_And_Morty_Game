@@ -1,5 +1,6 @@
 package model;
 
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class Game {
 	
 	public void serialize() {
 		try {
-			FileOutputStream fos = new FileOutputStream("..\\file\\top.txt\"");
+			FileOutputStream fos = new FileOutputStream("src\\file\\top.txt");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(top);
 			oos.close();
@@ -50,7 +51,8 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		try {
-			FileInputStream fis = new FileInputStream("..\\file\\top.txt\"");
+			serialize();
+			FileInputStream fis = new FileInputStream("src\\file\\top.txt");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			top = (ArrayList<Player>) ois.readObject();
 			ois.close();
@@ -106,16 +108,23 @@ public class Game {
 		for(int i=0;i<portals;i++) {
 			board.createPortals();
 		}
-		if(binarySearch(0, top.size(), rickPlayer) != null) {
-			rick = binarySearch(0, top.size(), rickPlayer);
-		}else {
+		if(top==null) {
+			top=new ArrayList<>();
 			rick=new Player(rickPlayer);
-		}
-		if(binarySearch(0, top.size(), mortyPlayer) != null) {
-			morty = binarySearch(0, top.size(), mortyPlayer);
-		}else {
 			morty=new Player(mortyPlayer);
+		}else { 
+			if(binarySearch(0, top.size(), rickPlayer) != null) {
+				rick = binarySearch(0, top.size(), rickPlayer);
+			}else {
+				rick=new Player(rickPlayer);
+			}
+			if(binarySearch(0, top.size(), mortyPlayer) != null) {
+				morty = binarySearch(0, top.size(), mortyPlayer);
+			}else {
+				morty=new Player(mortyPlayer);
+			}
 		}
+		
 		board.setActualRick(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
 		board.getActualRick().setRick(rick);
 		board.setActualMorty(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
@@ -173,5 +182,12 @@ public class Game {
 		this.morty = morty;
 	}
 	
+	public String getLinks() {
+		return board.printP();
+	}
+	
+	public String getStringBoard() {
+		return board.print();
+	}
 	
 }

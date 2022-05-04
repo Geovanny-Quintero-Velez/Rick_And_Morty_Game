@@ -36,6 +36,7 @@ public class Main {
 			int option = lector.nextInt();
 			switch(option) {
 				case 1:
+					movePlayer();
 					break;
 				case 2: printBoard();
 					break;
@@ -55,6 +56,7 @@ public class Main {
 	
 	public static void movePlayer() {
 		int die = (int) (Math.random()*(diesSides-1))+1;
+		System.out.println("Dice"+die);
 		System.out.println("Select the direction to move.");
 		System.out.println("1. Ahead");
 		System.out.println("2. Back");
@@ -75,18 +77,18 @@ public class Main {
 		}else {
 			System.out.println("Now it's Morty's turn. What do yo want to do?");
 		}
-		System.out.println("1. Roll dies.");
+		System.out.println("1. Roll dice.");
 		System.out.println("2. View board.");
 		System.out.println("3. View links.");
 		System.out.println("4. Bookmark.");
 	}
 	
 	public static void printBoard() {
-		
+		System.out.println(game.getStringBoard());
 	}
 	
 	public static void printLinks() {
-		
+		System.out.println(game.getLinks());
 	}
 	
 	public static void printScore() {
