@@ -24,7 +24,14 @@ public class Game {
 		
 	}
 	
+	public void verifyEndedGame() {
+		if(board.getNumSeeds() == rick.getSeeds() + morty.getSeeds()) {
+			setState(Tag.FINISHED);
+		}
+	}
+	
 	public Game(int lenght,int width,String player1,String player2,int seeds,int portals) {
+		state = Tag.INGOING;
 		board=new Board(lenght,width,seeds);
 		for(int i=0;i<lenght*width;i++) {
 			board.addCell();
@@ -60,6 +67,38 @@ public class Game {
 	}
 	public void setState(Tag state) {
 		this.state = state;
+	}
+
+	public ArrayList<Player> getTop() {
+		return top;
+	}
+
+	public void setTop(ArrayList<Player> top) {
+		this.top = top;
+	}
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
+	public Player getRick() {
+		return rick;
+	}
+
+	public void setRick(Player rick) {
+		this.rick = rick;
+	}
+
+	public Player getMorty() {
+		return morty;
+	}
+
+	public void setMorty(Player morty) {
+		this.morty = morty;
 	}
 	
 	
