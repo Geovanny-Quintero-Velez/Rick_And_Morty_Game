@@ -1,7 +1,15 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import comparator.*;
 
 public class Game {
 	private ArrayList<Player> top;
@@ -12,16 +20,71 @@ public class Game {
 	Player rick;
 	Player morty;
 	
+	public Player binarySearch(int begin, int end, String toFind) {
+		int mid = (begin+end)/2;
+		if(!(begin <= end)) {
+			return null; 
+		}else if(toFind.compareTo(top.get(mid).getName()) == 0) {
+			return top.get(mid);
+		}else if(toFind.compareTo(top.get(mid).getName())<0) {
+			return binarySearch(begin, mid-1, toFind);
+		}else if(toFind.compareTo(top.get(mid).getName())>0) {
+			return binarySearch(mid+1, end, toFind);
+		}
+		return null;
+	}
+	
 	public void serialize() {
-		
+		try {
+			FileOutputStream fos = new FileOutputStream("..\\file\\top.txt\"");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(top);
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void deserialize() {
-		
+		try {
+			FileInputStream fis = new FileInputStream("..\\file\\top.txt\"");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			top = (ArrayList<Player>) ois.readObject();
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void actualizeTop(ArrayList<Player> top) {
-		
+	public void actualizeTop(Player winner) {
+		int score = winner.getSeeds()*120-(beginig.getSecond()-end.getSecond());
+		winner.setSeeds(0);
+		if(binarySearch(0, top.size(), winner.getName())!= null) {
+			winner = binarySearch(0, top.size(), winner.getName());
+			winner.setPoints(winner.getPoints()+score);
+		}else {
+			top.add(winner);
+		}
+		Collections.sort(top, new CompareToName());
+		serialize();
+	}
+	
+	public String printTop() {
+		String message ="";
+		Collections.sort(top, new CompareToScore());
+		for(int i = 0;i<5;i++) {
+			if(top.get(i) != null) {
+				message += top.get(i).getName() +" - "+top.get(i).getPoints() + "\n";
+			}else {
+				message += "N/A - N/A \n";
+			}
+		}
+		return message;
 	}
 	
 	public void verifyEndedGame() {
@@ -30,7 +93,8 @@ public class Game {
 		}
 	}
 	
-	public Game(int lenght,int width,String player1,String player2,int seeds,int portals) {
+	public Game(int lenght,int width,int seeds,int portals, String rickPlayer,String mortyPlayer) {
+		deserialize();
 		state = Tag.INGOING;
 		board=new Board(lenght,width,seeds);
 		for(int i=0;i<lenght*width;i++) {
@@ -42,8 +106,16 @@ public class Game {
 		for(int i=0;i<portals;i++) {
 			board.createPortals();
 		}
-		rick=new Player(player1);
-		morty=new Player(player2);
+		if(binarySearch(0, top.size(), rickPlayer) != null) {
+			rick = binarySearch(0, top.size(), rickPlayer);
+		}else {
+			rick=new Player(rickPlayer);
+		}
+		if(binarySearch(0, top.size(), mortyPlayer) != null) {
+			morty = binarySearch(0, top.size(), mortyPlayer);
+		}else {
+			morty=new Player(mortyPlayer);
+		}
 		board.setActualRick(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
 		board.getActualRick().setRick(rick);
 		board.setActualMorty(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
