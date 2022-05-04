@@ -6,20 +6,20 @@ public class Board{
 	private int size;
 	private Cell first;
 	private Cell last;
-	public int leght;
-	public int wide;
+	public int lenght;
+	public int widht;
 	private int numSeeds;
 	private Cell actualRick;
 	private Cell actualMorty;
 	private char portal;
 	
-	public Board(int leght,int wide,int seeds) {
+	public Board(int leght,int widht,int seeds) {
 		portal='A';
 		size = 0;
 		last = null;
 		first = null;
 		this.leght=leght;
-		this.wide=wide;
+		this.widht=widht;
 		this.numSeeds=seeds;
 	}
 	
