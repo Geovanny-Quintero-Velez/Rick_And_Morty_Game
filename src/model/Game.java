@@ -50,7 +50,7 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		try {
-			FileInputStream fis = new FileInputStream("..\\file\\top.txt\"");
+			FileInputStream fis = new FileInputStream("src\\file\\top.txt");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			top = (ArrayList<Player>) ois.readObject();
 			ois.close();
@@ -172,6 +172,12 @@ public class Game {
 	public void setMorty(Player morty) {
 		this.morty = morty;
 	}
+	public String getLinks() {
+		return board.printP();
+	}
 	
+	public String getStringBoard() {
+		return board.print();
+	}
 	
 }

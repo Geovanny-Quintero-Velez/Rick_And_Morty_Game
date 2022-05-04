@@ -82,11 +82,11 @@ public class Main {
 	}
 	
 	public static void printBoard() {
-		
+		System.out.println(game.getLinks());
 	}
 	
 	public static void printLinks() {
-		
+		System.out.println(game.getStringBoard());
 	}
 	
 	public static void printScore() {
