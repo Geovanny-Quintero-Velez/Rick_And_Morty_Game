@@ -13,7 +13,7 @@ public class Cell {
 	public Cell(int position,Board board) {
 		this.setPosition(position);
 		isSeed = false;
-		
+		this.board=board;
 		
 	}
 	
@@ -88,9 +88,22 @@ public class Cell {
 	}
 	
 	public String toString() {
-		String out="";
-		
-		return out;
+		String thisOut="[";
+		if(rick!=null) {
+			thisOut+="R";
+		}
+		if(morty!=null) {
+			thisOut+="M";
+		}
+		if(rick==null&&morty==null) {
+			if(isSeed()) {
+				thisOut+="*";
+			}else {
+				thisOut+=position;
+			}
+		}
+		thisOut+="] ";
+		return thisOut;
 	}
 	
 	public Cell getCellAtTheEnd() {
