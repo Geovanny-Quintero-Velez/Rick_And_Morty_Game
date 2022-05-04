@@ -8,8 +8,8 @@ import model.Tag;
 
 public class Main {
 
-	private static int diesSides = 6;
-	private static boolean turnRick;
+	private static int dieSides = 6;
+	private static boolean turnRick = true;
 	private static Game game;
 	public static Scanner lector = new Scanner(System.in);
 	
@@ -55,8 +55,8 @@ public class Main {
 	}
 	
 	public static void movePlayer() {
-		int die = (int) (Math.random()*(diesSides-1))+1;
-		System.out.println("Dice"+die);
+		int die = (int) (Math.random()*(dieSides-1))+1;
+		System.out.println("The die landed on number: "+die);
 		System.out.println("Select the direction to move.");
 		System.out.println("1. Ahead");
 		System.out.println("2. Back");
@@ -66,8 +66,10 @@ public class Main {
 		}
 		if(isTurnRick() == true) {
 			game.getBoard().movePlayer(game.getBoard().getActualRick(), die, 1);
+			setTurnRick(false);
 		}else{
 			game.getBoard().movePlayer(game.getBoard().getActualMorty(), die, 2);
+			setTurnRick(true);
 		}
 	}
 	

@@ -51,7 +51,6 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		try {
-			serialize();
 			FileInputStream fis = new FileInputStream("src\\file\\top.txt");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			top = (ArrayList<Player>) ois.readObject();
