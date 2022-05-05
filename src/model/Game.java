@@ -68,10 +68,13 @@ public class Game {
 	}
 	
 	public void actualizeTop(Player winner) {
+		deserialize();
 		LocalTime end=LocalTime.now();
 		int score = winner.getSeeds()*120-(beginig.getSecond()-end.getSecond());
 		winner.setSeeds(0);
-		if(binarySearch(0, top.size(), winner.getName())!= null) {
+		if(top.size()==0) {
+			top.add(winner);
+		}else if(binarySearch(0, top.size(), winner.getName())!= null) {
 			winner = binarySearch(0, top.size(), winner.getName());
 			winner.setPoints(winner.getPoints()+score);
 		}else {
@@ -83,6 +86,7 @@ public class Game {
 	
 	public void actualizeTop(Player winner, int points) {
 		deserialize();
+		System.out.println(top.size());
 		int score = points;
 		rick.setSeeds(0);
 		morty.setSeeds(0);
@@ -146,9 +150,9 @@ public class Game {
 			}else {
 				morty=new Player(mortyPlayer);
 			}
-			beginig = LocalTime.now();
+			
 		}
-		
+		beginig = LocalTime.now();
 		board.setActualRick(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
 		board.getActualRick().setRick(rick);
 		board.setActualMorty(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
