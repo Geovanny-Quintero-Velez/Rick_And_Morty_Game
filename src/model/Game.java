@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import comparator.*;
 
@@ -22,11 +23,15 @@ public class Game {
 	Player morty;
 	
 	public Player binarySearch(int begin, int end, String toFind) {
-		int mid = (begin+end)/2;
+		int mid =(begin+end)/2;
 		if(!(begin <= end)) {
 			return null; 
+		}else if(top.size() == 0){
+			return null;
 		}else if(toFind.compareTo(top.get(mid).getName()) == 0) {
 			return top.get(mid);
+		}else if(mid == 0 || mid ==top.size()-1) {
+			return null;
 		}else if(toFind.compareTo(top.get(mid).getName())<0) {
 			return binarySearch(begin, mid-1, toFind);
 		}else if(toFind.compareTo(top.get(mid).getName())>0) {
@@ -75,15 +80,33 @@ public class Game {
 		serialize();
 	}
 	
+	public void actualizeTop(Player winner, int points) {
+		deserialize();
+		int score = points;
+		rick.setSeeds(0);
+		morty.setSeeds(0);
+		if(binarySearch(0, top.size(), winner.getName())!= null) {
+			winner = binarySearch(0, top.size(), winner.getName());
+			winner.setPoints(winner.getPoints()+score);
+		}else {
+			top.add(winner);
+		}
+		Collections.sort(top, new CompareToName());
+		serialize();
+	}
+	
 	public String printTop() {
 		String message ="";
 		Collections.sort(top, new CompareToScore());
-		for(int i = 0;i<5;i++) {
-			if(top.get(i) != null) {
-				message += top.get(i).getName() +" - "+top.get(i).getPoints() + "\n";
-			}else {
-				message += "N/A - N/A \n";
-			}
+		Iterator<Player> iterator = top.iterator();
+		int counter = 0;
+		while(iterator.hasNext() && counter<5) {
+			Player player = iterator.next();
+			message += player.getName() +" - "+player.getPoints() + "\n";
+			counter++;
+		}
+		for(int i = 0;i<5-counter;i++) {
+			message += "N/A - N/A \n";
 		}
 		return message;
 	}
@@ -91,11 +114,11 @@ public class Game {
 	public void verifyEndedGame() {
 		if(board.getNumSeeds() == rick.getSeeds() + morty.getSeeds()) {
 			setState(Tag.FINISHED);
+			end = LocalTime.now();
 		}
 	}
 	
 	public Game(int lenght,int width,int seeds,int portals, String rickPlayer,String mortyPlayer) {
-		deserialize();
 		state = Tag.INGOING;
 		board=new Board(lenght,width,seeds);
 		for(int i=0;i<lenght*width;i++) {
@@ -122,6 +145,7 @@ public class Game {
 			}else {
 				morty=new Player(mortyPlayer);
 			}
+			beginig = LocalTime.now();
 		}
 		
 		board.setActualRick(board.searchCell((int)(Math.random()*board.getSize()+1), board.getFirst()));
