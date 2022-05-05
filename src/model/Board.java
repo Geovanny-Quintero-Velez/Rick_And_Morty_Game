@@ -18,7 +18,7 @@ public class Board{
 		size = 0;
 		last = null;
 		first = null;
-		this.leght=leght;
+		this.lenght=leght;
 		this.widht=widht;
 		this.numSeeds=seeds;
 	}
