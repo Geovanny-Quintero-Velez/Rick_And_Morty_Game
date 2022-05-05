@@ -68,6 +68,7 @@ public class Game {
 	}
 	
 	public void actualizeTop(Player winner) {
+		LocalTime end=LocalTime.now();
 		int score = winner.getSeeds()*120-(beginig.getSecond()-end.getSecond());
 		winner.setSeeds(0);
 		if(binarySearch(0, top.size(), winner.getName())!= null) {
