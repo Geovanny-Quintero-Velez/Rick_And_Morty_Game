@@ -105,11 +105,15 @@ public class Game {
 		Collections.sort(top, new CompareToScore());
 		Iterator<Player> iterator = top.iterator();
 		int counter = 0;
-		while(iterator.hasNext() && counter<5) {
+		for(int i=0;i<top.size()&&i<5;i++) {
+			message += top.get(i).getName() +" - "+top.get(i).getPoints() + "\n";
+			counter++;
+		}
+		/*while(iterator.hasNext() && counter<5) {
 			Player player = iterator.next();
 			message += player.getName() +" - "+player.getPoints() + "\n";
 			counter++;
-		}
+		}*/
 		for(int i = 0;i<5-counter;i++) {
 			message += "N/A - N/A \n";
 		}

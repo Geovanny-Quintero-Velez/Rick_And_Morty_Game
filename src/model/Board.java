@@ -87,7 +87,6 @@ public class Board{
 		}while(cell1.equals(cell2));
 		cell1.setPortalS(portal);
 		cell2.setPortalS(portal);
-		System.out.println(portal);
 		cell1.setPortal(cell2);
 		cell2.setPortal(cell1);
 		portal++;
