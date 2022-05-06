@@ -14,6 +14,7 @@ public class Main {
 	public static Scanner lector = new Scanner(System.in);
 	
 	public static void main(String[] args) {
+		
 		System.out.println("Welcome to Rick and Morty: Dimensional recolectors game");
 		System.out.println("Please enter the lenght of the board.");
 		int lenght = lector.nextInt();
@@ -30,7 +31,6 @@ public class Main {
 		String mortyPlayer = lector.nextLine();
 		
 		game = new Game(lenght, width, seeds, portals, rickPlayer, mortyPlayer);
-		
 		while(game.getState() == Tag.INGOING) {
 			menu();
 			int option = lector.nextInt();
